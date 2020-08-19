@@ -1,9 +1,16 @@
 const Admin=require('./Admin');
 const TeleBot = require('telebot');
+var TelegramBot = require('node-telegram-bot-api');
+
+
 const api=require('./api');
 const mongoose=require('mongoose');
 const got = require('got');
-var bot = new TeleBot('1323798729:AAGW4CnTIk9A9Nwg7U4uwFrC65KfQxtVwvA');
+
+var bot = new TeleBot('1323798729:AAGW4CnTIk9A9Nwg7U4uwFrC65KfQxtVwvA',);
+
+// var bot = new TeleBot('1323798729:AAGW4CnTIk9A9Nwg7U4uwFrC65KfQxtVwvA');
+
 
 mongoose
 	.connect(
@@ -25,16 +32,14 @@ mongoose
 		console.log(err);
 	});
 bot.on('/start', (msg) => {
-    got('https://api.telegram.org/bot1323798729:AAGW4CnTIk9A9Nwg7U4uwFrC65KfQxtVwvA/getUpdates', { json: true }).then(response => {
-        
-     
-    }).catch(error => {
-        console.log(error);
-    });
 
     console.log(msg.from.id);
 
-    return bot.sendMessage(msg.from.id, `Привіт, ${ msg.from.first_name }!`);
+     bot.sendMessage(msg.from.id, 
+        `Привіт, ${ msg.from.first_name }!
+        /register- Реєстрація в системі,
+         обов'язкова при першому вході.
+        /open-Відчинити двері!!`);
   
 });
 bot.on('message',(msg)=>{
@@ -87,7 +92,7 @@ bot.on('/open',async (msg)=>{
         }).catch(error => {
             console.log(error);
         });
-        bot.sendMessage(-1001249254494, `${ msg.from.first_name },  Входить в аудиторію!`);
+        bot.sendMessage(-1001249254494, `${ msg.from.first_name },  Відчиняє двері!`);
     }
     else{
         bot.sendMessage(msg.from.id, `${ msg.from.first_name }, вам Обмежено доступ. Для реєстрації введіть /register`);
